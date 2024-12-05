@@ -10,16 +10,16 @@ namespace OisinFordeWordle
 {
     public partial class MainPage : ContentPage
     {
-        private List<string> _wordList;
-        private string _correctWord;
-        private int _currentAttempt;
-        private int _score = 0; // Variable to keep track of the score
+        private List<string> wordList;
+        private string correctWord;
+        private int currentAttempt;
+        private int score = 0; // Variable to keep track of the score
 
         public MainPage()
         {
             InitializeComponent();
-            _wordList = new List<string>();
-            _currentAttempt = 0;
+            wordList = new List<string>();
+            currentAttempt = 0;
             LoadWords();
         }
 
@@ -29,15 +29,15 @@ namespace OisinFordeWordle
             if (File.Exists(filePath))
             {
                 var lines = await File.ReadAllLinesAsync(filePath);
-                _wordList = lines.ToList();
+                wordList = lines.ToList();
             }
             else
             {
                 using (HttpClient client = new HttpClient())
                 {
                     var response = await client.GetStringAsync("https://raw.githubusercontent.com/DonH-ITS/jsonfiles/main/words.txt");
-                    _wordList = response.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-                    await File.WriteAllLinesAsync(filePath, _wordList);
+                    wordList = response.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                    await File.WriteAllLinesAsync(filePath, wordList);
                 }
             }
             StartNewGame();
@@ -46,8 +46,8 @@ namespace OisinFordeWordle
         private void StartNewGame()
         {
             Random random = new Random();
-            _correctWord = _wordList[random.Next(_wordList.Count)].ToUpper();
-            _currentAttempt = 0;
+            correctWord = wordList[random.Next(wordList.Count)].ToUpper();
+            currentAttempt = 0;
             GuessGrid.Children.Clear();
             for (int i = 0; i < 6; i++)
             {
@@ -86,27 +86,52 @@ namespace OisinFordeWordle
                 return;
             }
 
-            if (_currentAttempt < 6)
+            if (currentAttempt < 6)
             {
-                // Display the guess in the grid
+                // Create a list to track which letters have been matched correctly
+                bool[] matchedCorrectly = new bool[5];
+
+                // First pass: Check for correct letters in the correct position
                 for (int i = 0; i < 5; i++)
                 {
                     var label = GuessGrid.Children
                         .OfType<Label>()
-                        .FirstOrDefault(l => Grid.GetRow(l) == _currentAttempt && Grid.GetColumn(l) == i);
+                        .FirstOrDefault(l => Grid.GetRow(l) == currentAttempt && Grid.GetColumn(l) == i);
                     if (label != null)
                     {
                         label.Text = guess[i].ToString();
-                        // Determine the color based on the correctness of the letter
-                        if (guess[i] == _correctWord[i])
+                        if (guess[i] == correctWord[i])
                         {
                             label.BackgroundColor = Color.FromHex("#00FF00"); // Green
-                            _score += 2; // Add points for correct letter and position
+                            score += 2; // Add points for correct letter and position
+                            matchedCorrectly[i] = true; // Mark this position as matched
                         }
-                        else if (_correctWord.Contains(guess[i]))
+                    }
+                }
+
+                // Second pass: Check for correct letters in the wrong position
+                for (int i = 0; i < 5; i++)
+                {
+                    var label = GuessGrid.Children
+                        .OfType<Label>()
+                        .FirstOrDefault(l => Grid.GetRow(l) == currentAttempt && Grid.GetColumn(l) == i);
+                    if (label != null && !matchedCorrectly[i]) // Only check if not already matched
+                    {
+                        if (correctWord.Contains(guess[i]) && guess[i] != correctWord[i])
                         {
-                            label.BackgroundColor = Color.FromHex("#FFFF00"); // Yellow
-                            _score += 1; // Add points for correct letter but wrong position
+                            // Check if the letter has already been matched in the correct position
+                            int countInCorrectWord = correctWord.Count(c => c == guess[i]);
+                            int countMatched = matchedCorrectly.Count(m => m && correctWord[Array.IndexOf(correctWord.ToCharArray(), guess[i])] == guess[i]);
+
+                            if (countMatched < countInCorrectWord)
+                            {
+                                label.BackgroundColor = Color.FromHex("#FFFF00"); // Yellow
+                                score += 1; // Add points for correct letter but wrong position
+                            }
+                            else
+                            {
+                                label.BackgroundColor = Color.FromHex("#808080"); // Gray
+                            }
                         }
                         else
                         {
@@ -119,18 +144,18 @@ namespace OisinFordeWordle
                 }
 
                 // Check if the guess is correct
-                if (guess == _correctWord)
+                if (guess == correctWord)
                 {
-                    FeedbackLabel.Text = $"Congratulations! You've guessed the word! Your score: {_score}";
+                    FeedbackLabel.Text = $"Congratulations! You've guessed the word! Your score: {score}";
                     FeedbackLabel.IsVisible = true;
                     ResetGame(); // Reset the game after winning
                 }
                 else
                 {
-                    _currentAttempt++;
-                    if (_currentAttempt >= 6)
+                    currentAttempt++;
+                    if (currentAttempt >= 6)
                     {
-                        FeedbackLabel.Text = $"Game Over! The correct word was: {_correctWord}. Your score: {_score}";
+                        FeedbackLabel.Text = $"Game Over! The correct word was: {correctWord}. Your score: {score}";
                         FeedbackLabel.IsVisible = true;
                         ResetGame(); // Reset the game after losing
                     }
@@ -144,8 +169,8 @@ namespace OisinFordeWordle
         private void ResetGame()
         {
             // Reset the game state
-            _currentAttempt = 0;
-            _score = 0; // Reset score
+            currentAttempt = 0;
+            score = 0; // Reset score
             FeedbackLabel.IsVisible = false; // Hide feedback label
             GuessEntry.Text = string.Empty; // Clear the entry
 
