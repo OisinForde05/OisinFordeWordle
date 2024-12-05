@@ -42,19 +42,24 @@
                BackgroundColor="White" 
                Completed="OnGuessButtonClicked"/>
 
-        <Button Text="Submit Guess"
+        <Button x:Name="SubmitButton"
+                Text="Submit Guess"
                 FontSize="24"
                 Clicked="OnGuessButtonClicked"
                 HorizontalOptions="Center" 
                 BackgroundColor="#6AAA64" 
-                TextColor="White">
-            <Button.Triggers>
-                <EventTrigger Event="Clicked">
-                    
-                    
-                </EventTrigger>
-            </Button.Triggers>
-        </Button>
+                TextColor="White" />
+
+        <Button x:Name="NewGameButton"
+                Text="Start New Game"
+                FontSize="24"
+                Clicked="OnNewGameButtonClicked"
+                HorizontalOptions="Center" 
+                BackgroundColor="#6AAA64" 
+                TextColor="White"
+                IsVisible="False" 
+                Opacity="0" />
+        <!-- Initially hidden -->
 
         <Label x:Name="FeedbackLabel"
                FontSize="24"
