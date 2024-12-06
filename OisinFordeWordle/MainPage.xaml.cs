@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 
@@ -21,6 +22,7 @@ namespace OisinFordeWordle
             wordList = new List<string>();
             currentAttempt = 0;
             LoadWords();
+            LoadGameStateAsync(); // Load the saved state
         }
 
         private async void LoadWords()
@@ -41,7 +43,10 @@ namespace OisinFordeWordle
                     await File.WriteAllLinesAsync(filePath, wordList);
                 }
             }
-            StartNewGame();
+            if (wordList.Count == 0)
+            {
+                StartNewGame();
+            }
         }
 
         private void StartNewGame()
@@ -71,105 +76,61 @@ namespace OisinFordeWordle
             FeedbackLabel.IsVisible = false; // Hide feedback label at the start of a new game
             GuessEntry.Text = string.Empty; // Clear the input field
             GuessEntry.IsVisible = true; // Show the Guess Entry for the new game
+            SaveGameStateAsync(); // Save initial state
         }
 
-        private async void OnGuessButtonClicked(object sender, EventArgs e)
+        private async Task SaveGameStateAsync()
         {
-            // Animate the button when clicked
-            var button = sender as Button;
-            if (button != null)
-            {
-                await button.ScaleTo(0.9, 100); // Scale down
-                await button.ScaleTo(1, 100);   // Scale back to original size
-            }
+            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "gameState.json");
 
-            string guess = GuessEntry.Text?.ToUpper();
-            if (string.IsNullOrWhiteSpace(guess) || guess.Length != 5 || !guess.All(char.IsLetter))
+            var gameState = new
             {
-                FeedbackLabel.Text = "Please enter a valid 5-letter word without spaces.";
-                FeedbackLabel.IsVisible = true;
-                return;
-            }
+                correctWord,
+                currentAttempt,
+                guesses = GuessGrid.Children.OfType<Label>()
+                            .GroupBy(l => Grid.GetRow(l))
+                            .Select(g => string.Concat(g.OrderBy(l => Grid.GetColumn(l)).Select(l => l.Text)))
+                            .Take(currentAttempt)
+                            .ToList()
+            };
 
-            // Check if the guessed word is in the valid word list
-            if (!wordList.Contains(guess))
+            var json = JsonSerializer.Serialize(gameState);
+            await File.WriteAllTextAsync(filePath, json);
+        }
+
+        private async Task LoadGameStateAsync()
+        {
+            var filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "gameState.json");
+            if (File.Exists(filePath))
             {
-                FeedbackLabel.Text = "The word you entered is not in the valid word list.";
-                FeedbackLabel.IsVisible = true;
-                return;
-            }
+                var json = await File.ReadAllTextAsync(filePath);
+                var gameState = JsonSerializer.Deserialize<dynamic>(json);
 
-            if (currentAttempt < 6)
-            {
-                // Create a list to track which letters have been matched correctly
-                bool[] matchedCorrectly = new bool[5];
+                correctWord = gameState.correctWord;
+                currentAttempt = (int)gameState.currentAttempt;
 
-                // First pass: Check for correct letters in the correct position
-                for (int i = 0; i < 5; i++)
+                // Restore guesses
+                var guesses = gameState.guesses as List<string>;
+                for (int i = 0; i < guesses.Count; i++)
                 {
-                    var label = GuessGrid.Children
-                        .OfType<Label>()
-                        .FirstOrDefault(l => Grid.GetRow(l) == currentAttempt && Grid.GetColumn(l) == i);
-                    if (label != null)
+                    var guess = guesses[i];
+                    for (int j = 0; j < guess.Length; j++)
                     {
-                        label.Text = guess[i].ToString();
-                        if (guess[i] == correctWord[i])
+                        var label = GuessGrid.Children.OfType<Label>()
+                            .FirstOrDefault(l => Grid.GetRow(l) == i && Grid.GetColumn(l) == j);
+                        if (label != null)
                         {
-                            label.BackgroundColor = Color.FromHex("#00FF00"); // Green
-                            score += 2; // Add points for correct letter and position
-                            matchedCorrectly[i] = true; // Mark this position as matched
+                            label.Text = guess[j].ToString();
+                            // Restore tile colors if needed
                         }
                     }
                 }
-
-                // Second pass: Check for correct letters in the wrong position
-                for (int i = 0; i < 5; i++)
-                {
-                    var label = GuessGrid.Children
-                        .OfType<Label>()
-                        .FirstOrDefault(l => Grid.GetRow(l) == currentAttempt && Grid.GetColumn(l) == i);
-                    if (label != null && !matchedCorrectly[i])
-                    {
-                        if (correctWord.Contains(guess[i]))
-                        {
-                            label.BackgroundColor = Color.FromHex("#FFFF00"); // Yellow
-                            score += 1; // Add points for correct letter but wrong position
-                        }
-                        else
-                        {
-                            label.BackgroundColor = Color.FromHex("#3C3D3F"); // Gray
-                        }
-                    }
-                }
-
-                currentAttempt++;
-
-                // Check if the game is over
-                if (guess == correctWord)
-                {
-                    FeedbackLabel.Text = $"Congratulations! You've guessed the word: {correctWord}. Your score is {score}.";
-                    FeedbackLabel.IsVisible = true;
-
-                    // Hide the Submit button and show the New Game button
-                    SubmitButton.IsVisible = false;
-                    GuessEntry.IsVisible = false; // Hide the Guess Entry
-                    await NewGameButton.FadeTo(1, 500); // Fade in the New Game button
-                    NewGameButton.IsVisible = true; // Make it visible
-                }
-                else if (currentAttempt >= 6)
-                {
-                    FeedbackLabel.Text = $"Game Over! The correct word was {correctWord}. Your score is {score}.";
-                    FeedbackLabel.IsVisible = true;
-
-                    // Hide the Submit button and show the New Game button
-                    SubmitButton.IsVisible = false;
-                    GuessEntry.IsVisible = false; // Hide the Guess Entry
-                    await NewGameButton.FadeTo(1, 500); // Fade in the New Game button
-                    NewGameButton.IsVisible = true; // Make it visible
-                }
             }
+        }
 
-            GuessEntry.Text = string.Empty; // Clear the input field for the next guess
+        private async void OnInfoButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new GameInfoPage());
         }
 
         private void OnNewGameButtonClicked(object sender, EventArgs e)

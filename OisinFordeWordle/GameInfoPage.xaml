@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OisinFordeWordle.GameInfoPage"
+             Title="Game Info"
+             BackgroundColor="#121213">
+
+    <ScrollView>
+        <StackLayout Padding="20">
+            <Label Text="Wordle Game Rules" FontSize="24" TextColor="White" Margin="0,10"/>
+            <Label Text="1. Guess the 5-letter word within 6 attempts."
+                   FontSize="18" TextColor="White" />
+            <Label Text="2. After each guess, the color of the tiles will change to show how close your guess was."
+                   FontSize="18" TextColor="White" />
+            <Label Text="3. Try to guess the word in as few attempts as possible to score higher."
+                   FontSize="18" TextColor="White" Margin="0,10"/>
+        </StackLayout>
+    </ScrollView>
+</ContentPage>
