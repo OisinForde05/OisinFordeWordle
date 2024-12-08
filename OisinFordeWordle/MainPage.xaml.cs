@@ -23,6 +23,12 @@ namespace OisinFordeWordle
             LoadWords();
         }
 
+        // Navigate to PlayerStatsPage when the button is clicked
+        private async void OnPlayerStatsButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new PlayerStatsPage());
+        }
+
         private async void LoadWords()
         {
             string filePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "words.txt");

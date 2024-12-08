@@ -66,7 +66,19 @@
                 TextColor="White"
                 FontSize="20"
                 HorizontalOptions="End"
-                WidthRequest="150" />
+                WidthRequest="160" />
+
+        <!-- Transparent Spacer -->
+        <BoxView HeightRequest="20" Color="Transparent" />
+
+        <!-- Button to Navigate to Player Stats Page -->
+        <Button Text="🎮 Player Stats"
+                FontSize="20"
+                HorizontalOptions="End"
+                BackgroundColor="#6AAA64"
+                TextColor="White"
+                Clicked="OnPlayerStatsButtonClicked"
+                WidthRequest="160" />
 
 
         <Label x:Name="FeedbackLabel"

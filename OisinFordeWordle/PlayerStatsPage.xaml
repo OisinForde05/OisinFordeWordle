@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="OisinFordeWordle.PlayerStatsPage"
+             BackgroundColor="#121213"
+             Title="Player Stats">
+
+    <StackLayout Padding="20" VerticalOptions="Center">
+        <!-- Player Stats Section -->
+        <Label Text="🎮 Player Stats"
+               FontSize="28"
+               TextColor="White"
+               HorizontalOptions="Center" />
+
+        <Label x:Name="HighScoreLabel" Text="🏆 High Score: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
+        <Label x:Name="GamesPlayedLabel" Text="🔢 Games Played: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
+        <Label x:Name="AverageScoreLabel" Text="📈 Average Score: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
+
+        <!-- Back Button -->
+        <Button Text="Back"
+                FontSize="20"
+                HorizontalOptions="Center"
+                BackgroundColor="#6AAA64"
+                TextColor="White"
+                Clicked="OnBackButtonClicked" />
+    </StackLayout>
+</ContentPage>

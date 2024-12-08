@@ -66,10 +66,16 @@
 	  <Compile Update="GameInfoPage.xaml.cs">
 	    <DependentUpon>GameInfoPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="PlayerStatsPage.xaml.cs">
+	    <DependentUpon>PlayerStatsPage.xaml</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <MauiXaml Update="GameInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="PlayerStatsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>
