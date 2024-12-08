@@ -14,6 +14,12 @@ namespace OisinFordeWordle
             UpdatePlayerStats();
         }
 
+        protected override void OnDisappearing()
+        {
+            // Clean up event handlers or any resources here if necessary
+            base.OnDisappearing();
+        }
+
         private void UpdatePlayerStats()
         {
             // Update the labels with current stats

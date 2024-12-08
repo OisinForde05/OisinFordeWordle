@@ -75,6 +75,9 @@
 	  <MauiXaml Update="GameInfoPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="App.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="PlayerStatsPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

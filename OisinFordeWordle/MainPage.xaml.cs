@@ -24,9 +24,15 @@ namespace OisinFordeWordle
         }
 
         // Navigate to PlayerStatsPage when the button is clicked
+
         private async void OnPlayerStatsButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new PlayerStatsPage());
+            // Check if the page is already on the navigation stack
+            var playerStatsPage = new PlayerStatsPage();
+            if (!Navigation.NavigationStack.Contains(playerStatsPage))
+            {
+                await Navigation.PushAsync(playerStatsPage);
+            }
         }
 
         private async void LoadWords()

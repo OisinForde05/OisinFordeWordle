@@ -6,7 +6,9 @@
         {
             InitializeComponent();
 
-            MainPage = new AppShell();
+            // Wrap the MainPage in a NavigationPage to enable navigation
+            MainPage = new NavigationPage(new MainPage());
         }
+
     }
 }
