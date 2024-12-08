@@ -5,14 +5,6 @@
              Title="Wordle Game"
              BackgroundColor="#121213">
 
-    <!-- Add ToolbarItem for Info Page -->
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Text="Info"
-                     Order="Primary"
-                     Priority="0"
-                     Clicked="OnInfoButtonClicked" />
-    </ContentPage.ToolbarItems>
-
     <StackLayout Padding="20" VerticalOptions="Center">
         <Label Text="Wordle"
                FontSize="32"
@@ -67,7 +59,14 @@
                 TextColor="White"
                 IsVisible="False" 
                 Opacity="0" />
-        <!-- Initially hidden -->
+
+        <Button x:Name="GameInfoButton"
+                Text="Game Info"
+                FontSize="20"
+                Clicked="OnGameInfoButtonClicked"
+                HorizontalOptions="End"
+                BackgroundColor="#4A90E2"
+                TextColor="White" />
 
         <Label x:Name="FeedbackLabel"
                FontSize="24"

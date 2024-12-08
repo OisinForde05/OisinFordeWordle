@@ -4,16 +4,26 @@
              x:Class="OisinFordeWordle.GameInfoPage"
              Title="Game Info"
              BackgroundColor="#121213">
+    <StackLayout Padding="20">
+        <Label Text="Game Rules"
+               FontSize="32"
+               TextColor="White"
+               HorizontalOptions="Center"/>
 
-    <ScrollView>
-        <StackLayout Padding="20">
-            <Label Text="Wordle Game Rules" FontSize="24" TextColor="White" Margin="0,10"/>
-            <Label Text="1. Guess the 5-letter word within 6 attempts."
-                   FontSize="18" TextColor="White" />
-            <Label Text="2. After each guess, the color of the tiles will change to show how close your guess was."
-                   FontSize="18" TextColor="White" />
-            <Label Text="3. Try to guess the word in as few attempts as possible to score higher."
-                   FontSize="18" TextColor="White" Margin="0,10"/>
-        </StackLayout>
-    </ScrollView>
+        <Label Text="1. Guess the 5-letter word in 6 attempts."
+               FontSize="20"
+               TextColor="White"/>
+
+        <Label Text="2. Green = correct letter and position."
+               FontSize="20"
+               TextColor="White"/>
+
+        <Label Text="3. Yellow = correct letter, wrong position."
+               FontSize="20"
+               TextColor="White"/>
+
+        <Label Text="4. Gray = letter not in the word."
+               FontSize="20"
+               TextColor="White"/>
+    </StackLayout>
 </ContentPage>
