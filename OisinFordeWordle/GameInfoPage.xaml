@@ -2,28 +2,111 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="OisinFordeWordle.GameInfoPage"
-             Title="Game Info"
+             Title="Game Rules"
              BackgroundColor="#121213">
-    <StackLayout Padding="20">
-        <Label Text="Game Rules"
-               FontSize="32"
-               TextColor="White"
-               HorizontalOptions="Center"/>
 
-        <Label Text="1. Guess the 5-letter word in 6 attempts."
-               FontSize="20"
-               TextColor="White"/>
+    <ScrollView>
+        <StackLayout Padding="20" Spacing="15">
+            <Label Text="📜 How to Play Wordle"
+                   FontSize="28"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
 
-        <Label Text="2. Green = correct letter and position."
-               FontSize="20"
-               TextColor="White"/>
+            <Label Text="🟩 Wordle is a word-guessing game where you try to guess a 5-letter word within 6 attempts."
+                   FontSize="20"
+                   TextColor="White" />
 
-        <Label Text="3. Yellow = correct letter, wrong position."
-               FontSize="20"
-               TextColor="White"/>
+            <Label Text="🕹️ Here's how to play:"
+                   FontSize="22"
+                   TextColor="White"
+                   FontAttributes="Bold" />
 
-        <Label Text="4. Gray = letter not in the word."
-               FontSize="20"
-               TextColor="White"/>
-    </StackLayout>
+            <Label Text="1. Enter a valid 5-letter word in the text box and hit the Submit button."
+                   FontSize="18"
+                   TextColor="White" />
+
+            <Label Text="2. After each guess, the color of the tiles will indicate how close your guess was:"
+                   FontSize="18"
+                   TextColor="White" />
+
+            <!-- Use Frame for rounded corners -->
+            <Frame BackgroundColor="#1E1E1E" CornerRadius="10" Padding="10">
+                <StackLayout>
+                    <Label Text="🟩 Green: The letter is correct and in the correct position."
+                           FontSize="18"
+                           TextColor="White" />
+
+                    <Label Text="🟨 Yellow: The letter is correct but in the wrong position."
+                           FontSize="18"
+                           TextColor="White" />
+
+                    <Label Text="⬜ Gray: The letter is not in the word."
+                           FontSize="18"
+                           TextColor="White" />
+                </StackLayout>
+            </Frame>
+
+            <Label Text="🔄 You have 6 attempts to guess the correct word."
+                   FontSize="18"
+                   TextColor="White" />
+
+            <Label Text="🏆 Can you guess the word before you run out of attempts?"
+                   FontSize="20"
+                   TextColor="White"
+                   FontAttributes="Bold" />
+
+            <Label Text="💡 Tip: Use your guesses wisely and think strategically to narrow down the possibilities!"
+                   FontSize="18"
+                   TextColor="White" />
+
+            <!-- Example Wordle Game -->
+            <Label Text="📝 Example Game:"
+                   FontSize="22"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Frame BackgroundColor="#1E1E1E" CornerRadius="10" Padding="10">
+                <StackLayout Spacing="5" HorizontalOptions="Center">
+                    <!-- First Row -->
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="5">
+                        <!-- Correct letter, correct position (Green) -->
+                        <Frame WidthRequest="50" HeightRequest="50" BackgroundColor="#00FF00" CornerRadius="5">
+                            <Label Text="B" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="24"/>
+                        </Frame>
+
+                        <!-- Correct letter, wrong position (Yellow) -->
+                        <Frame WidthRequest="50" HeightRequest="50" BackgroundColor="#FFFF00" CornerRadius="5">
+                            <Label Text="E" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="24"/>
+                        </Frame>
+
+                        <!-- Incorrect letter (Gray) -->
+                        <Frame WidthRequest="50" HeightRequest="50" BackgroundColor="#3C3D3F" CornerRadius="5">
+                            <Label Text="A" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="24"/>
+                        </Frame>
+
+                        <!-- Correct letter, correct position (Green) -->
+                        <Frame WidthRequest="50" HeightRequest="50" BackgroundColor="#00FF00" CornerRadius="5">
+                            <Label Text="R" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="24"/>
+                        </Frame>
+
+                        <!-- Incorrect letter (Gray) -->
+                        <Frame WidthRequest="50" HeightRequest="50" BackgroundColor="#3C3D3F" CornerRadius="5">
+                            <Label Text="T" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center" FontSize="24"/>
+                        </Frame>
+                    </StackLayout>
+
+                    <Label Text="Guess: BEART" FontSize="18" TextColor="White" HorizontalOptions="Center"/>
+                </StackLayout>
+            </Frame>
+
+            <Button Text="Back to Game"
+                    Clicked="OnBackButtonClicked"
+                    BackgroundColor="#6AAA64"
+                    TextColor="White"
+                    FontSize="20"
+                    HorizontalOptions="Center"
+                    WidthRequest="200" />
+        </StackLayout>
+    </ScrollView>
 </ContentPage>

@@ -181,9 +181,10 @@ namespace OisinFordeWordle
             StartNewGame();
         }
 
-        private async void OnGameInfoButtonClicked(object sender, EventArgs e)
+        private async void OnInfoButtonClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new GameInfoPage());
         }
+
     }
 }

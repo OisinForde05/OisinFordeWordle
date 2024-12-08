@@ -8,5 +8,10 @@ namespace OisinFordeWordle
         {
             InitializeComponent();
         }
+
+        private async void OnBackButtonClicked(object sender, EventArgs e)
+        {
+            await Navigation.PopAsync(); // Return to the MainPage
+        }
     }
 }

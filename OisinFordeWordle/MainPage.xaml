@@ -60,13 +60,14 @@
                 IsVisible="False" 
                 Opacity="0" />
 
-        <Button x:Name="GameInfoButton"
-                Text="Game Info"
+        <Button Text="ℹ️ Game Info"
+                Clicked="OnInfoButtonClicked"
+                BackgroundColor="#6AAA64"
+                TextColor="White"
                 FontSize="20"
-                Clicked="OnGameInfoButtonClicked"
                 HorizontalOptions="End"
-                BackgroundColor="#4A90E2"
-                TextColor="White" />
+                WidthRequest="150" />
+
 
         <Label x:Name="FeedbackLabel"
                FontSize="24"
