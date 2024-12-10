@@ -80,16 +80,28 @@
                 Clicked="OnPlayerStatsButtonClicked"
                 WidthRequest="160" />
 
-
+        <!-- Feedback Label -->
         <Label x:Name="FeedbackLabel"
                FontSize="24"
                HorizontalOptions="Center"
                TextColor="Red"
                IsVisible="False" />
 
+        <!-- Attempts Label (optional) -->
         <Label x:Name="AttemptsLabel"
                FontSize="20"
                HorizontalOptions="Center"
                IsVisible="False" />
+
+        <!-- Cheat Button (Initially hidden) -->
+        <Button x:Name="CheatButton"
+                Text="Reveal Word"
+                FontSize="24"
+                Clicked="OnCheatButtonClicked"
+                HorizontalOptions="Center"
+                BackgroundColor="#FF5733"
+                TextColor="White"
+                IsVisible="False" />
+        <!-- Hidden initially -->
     </StackLayout>
 </ContentPage>

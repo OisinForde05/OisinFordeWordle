@@ -1,9 +1,11 @@
-namespace OisinFordeWordle;
-
-public partial class NewPage1 : ContentPage
+namespace OisinFordeWordle
 {
-	public NewPage1()
-	{
-		InitializeComponent();
-	}
+    public partial class App : Application
+    {
+        public App()
+        {
+            InitializeComponent();
+            MainPage = new NavigationPage(new MainPage());
+        }
+    }
 }

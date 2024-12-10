@@ -23,8 +23,6 @@ namespace OisinFordeWordle
             LoadWords();
         }
 
-        // Navigate to PlayerStatsPage when the button is clicked
-
         private async void OnPlayerStatsButtonClicked(object sender, EventArgs e)
         {
             // Check if the page is already on the navigation stack
@@ -90,6 +88,8 @@ namespace OisinFordeWordle
             SubmitButton.IsVisible = true;
             NewGameButton.IsVisible = false;
             NewGameButton.Opacity = 0;
+
+            CheatButton.IsVisible = false; // Initially hide cheat button
         }
 
         private async void OnGuessButtonClicked(object sender, EventArgs e)
@@ -184,9 +184,14 @@ namespace OisinFordeWordle
             }
 
             GuessEntry.Text = string.Empty; // Clear the input field for the next guess
+
+            // Show the cheat button after the first guess
+            if (currentAttempt == 1)
+            {
+                await CheatButton.FadeTo(1, 500); // Fade in the cheat button
+                CheatButton.IsVisible = true;
+            }
         }
-
-
 
         private void OnNewGameButtonClicked(object sender, EventArgs e)
         {
@@ -198,5 +203,12 @@ namespace OisinFordeWordle
             await Navigation.PushAsync(new GameInfoPage());
         }
 
+        // Cheat Button - Reveals the correct word
+        private void OnCheatButtonClicked(object sender, EventArgs e)
+        {
+            FeedbackLabel.Text = $"The correct word is: {correctWord}";
+            FeedbackLabel.IsVisible = true;
+            CheatButton.IsVisible = false; // Hide the cheat button after showing the word
+        }
     }
 }
