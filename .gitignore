@@ -363,3 +363,4 @@ MigrationBackup/
 FodyWeavers.xsd
 /OisinFordeWordle/App.xaml
 /OisinFordeWordle/GameInfoPage.xaml.cs
+/OisinFordeWordle/OisinFordeWordle.csproj
