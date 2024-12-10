@@ -100,6 +100,24 @@
                 </StackLayout>
             </Frame>
 
+            <Label Text="💰 Scoring System:"
+                   FontSize="22"
+                   TextColor="White"
+                   FontAttributes="Bold"
+                   HorizontalOptions="Center" />
+
+            <Label Text="🔢 Points are awarded based on your attempts. The earlier you guess the word, the more points you earn:"
+                   FontSize="18"
+                   TextColor="White" />
+
+            <Label Text="🏅 For every correct guess, points are calculated as (6 - currentAttempt) * 10."
+                   FontSize="18"
+                   TextColor="White" />
+
+            <Label Text="💎 Max points are 50 for guessing on the first try, and minimum is 0 points if you run out of attempts."
+                   FontSize="18"
+                   TextColor="White" />
+
             <Button Text="Back to Game"
                     Clicked="OnBackButtonClicked"
                     BackgroundColor="#6AAA64"

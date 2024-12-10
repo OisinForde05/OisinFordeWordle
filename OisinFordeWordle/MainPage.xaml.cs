@@ -1,10 +1,10 @@
-﻿using System;
+﻿using Microsoft.Maui.Controls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
-using Microsoft.Maui.Controls;
 
 namespace OisinFordeWordle
 {
@@ -15,11 +15,19 @@ namespace OisinFordeWordle
         private int currentAttempt;
         private int score = 0; // Variable to keep track of the score
 
+        // Declare and initialize the missing variables
+        private int gamesPlayed;
+        private int totalScore;
+        private int highScore;
+
         public MainPage()
         {
             InitializeComponent();
             wordList = new List<string>();
             currentAttempt = 0;
+            gamesPlayed = Preferences.Get("GamesPlayed", 0); // Load gamesPlayed from Preferences
+            totalScore = Preferences.Get("TotalScore", 0);   // Load totalScore from Preferences
+            highScore = Preferences.Get("HighScore", 0);     // Load highScore from Preferences
             LoadWords();
         }
 
@@ -89,12 +97,23 @@ namespace OisinFordeWordle
             NewGameButton.IsVisible = false;
             NewGameButton.Opacity = 0;
 
-            CheatButton.IsVisible = false; // Initially hide cheat button
+            // Initially hide cheat button at the start of a new game
+            CheatButton.IsVisible = true; // Show the cheat button when a new game starts
         }
+
+        private void OnCheatButtonClicked(object sender, EventArgs e)
+        {
+            FeedbackLabel.Text = $"The correct word is: {correctWord}";
+            FeedbackLabel.IsVisible = true;
+            CheatButton.IsVisible = false; // Hide the cheat button after showing the word
+        }
+
 
         private async void OnGuessButtonClicked(object sender, EventArgs e)
         {
             string guess = GuessEntry.Text?.ToUpper();
+
+            // Validate the guess
             if (string.IsNullOrWhiteSpace(guess) || guess.Length != 5 || !guess.All(char.IsLetter))
             {
                 FeedbackLabel.Text = "Please enter a valid 5-letter word.";
@@ -158,6 +177,7 @@ namespace OisinFordeWordle
                     }
                 }
 
+                // Increment the attempt counter
                 currentAttempt++;
 
                 // Check if the game is over
@@ -170,6 +190,12 @@ namespace OisinFordeWordle
                     GuessEntry.IsVisible = false;
                     await NewGameButton.FadeTo(1, 500);
                     NewGameButton.IsVisible = true;
+
+                    // Save the score
+                    SaveGameStats(true);
+
+                    // Hide the cheat button after the game is over (win)
+                    CheatButton.IsVisible = false;
                 }
                 else if (currentAttempt >= 6)
                 {
@@ -180,17 +206,47 @@ namespace OisinFordeWordle
                     GuessEntry.IsVisible = false;
                     await NewGameButton.FadeTo(1, 500);
                     NewGameButton.IsVisible = true;
+
+                    // Save the score as game over
+                    SaveGameStats(false);
+
+                    // Hide the cheat button after the game is over (loss)
+                    CheatButton.IsVisible = false;
+                }
+                else
+                {
+                    // Show the cheat button after the first guess
+                    if (currentAttempt == 1)
+                    {
+                        CheatButton.IsVisible = true;
+                    }
                 }
             }
 
-            GuessEntry.Text = string.Empty; // Clear the input field for the next guess
+            // Clear the entry field for the next guess
+            GuessEntry.Text = string.Empty;
+        }
 
-            // Show the cheat button after the first guess
-            if (currentAttempt == 1)
+
+        private void SaveGameStats(bool gameWon)
+        {
+            // Get the current score for the game (example: based on attempts remaining)
+            int scoreForThisGame = gameWon ? (6 - currentAttempt) * 10 : 0;
+
+            // Update the total score and games played
+            gamesPlayed++;
+            totalScore += scoreForThisGame;
+
+            // Update high score if needed
+            if (scoreForThisGame > highScore)
             {
-                await CheatButton.FadeTo(1, 500); // Fade in the cheat button
-                CheatButton.IsVisible = true;
+                highScore = scoreForThisGame;
             }
+
+            // Save to Preferences
+            Preferences.Set("HighScore", highScore);
+            Preferences.Set("GamesPlayed", gamesPlayed);
+            Preferences.Set("TotalScore", totalScore);
         }
 
         private void OnNewGameButtonClicked(object sender, EventArgs e)
@@ -204,11 +260,6 @@ namespace OisinFordeWordle
         }
 
         // Cheat Button - Reveals the correct word
-        private void OnCheatButtonClicked(object sender, EventArgs e)
-        {
-            FeedbackLabel.Text = $"The correct word is: {correctWord}";
-            FeedbackLabel.IsVisible = true;
-            CheatButton.IsVisible = false; // Hide the cheat button after showing the word
-        }
+       
     }
 }

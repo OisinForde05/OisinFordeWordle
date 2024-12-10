@@ -12,7 +12,7 @@
                TextColor="White"
                HorizontalOptions="Center" />
 
-        <Label x:Name="HighScoreLabel" Text="🏆 High Score: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
+        <Label x:Name="HighScoreLabel" Text="🏅 High Score: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
         <Label x:Name="GamesPlayedLabel" Text="🔢 Games Played: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
         <Label x:Name="AverageScoreLabel" Text="📈 Average Score: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
 
