@@ -50,6 +50,7 @@
                 BackgroundColor="#6AAA64" 
                 TextColor="White" />
 
+
         <Button x:Name="NewGameButton"
                 Text="Start New Game"
                 FontSize="24"
@@ -80,6 +81,7 @@
                 Clicked="OnPlayerStatsButtonClicked"
                 WidthRequest="160" />
 
+
         <!-- Feedback Label -->
         <Label x:Name="FeedbackLabel"
                FontSize="24"
@@ -102,6 +104,24 @@
                 BackgroundColor="#FF5733"
                 TextColor="White"
                 IsVisible="False" />
-        <!-- Hidden initially -->
+
+        <!-- Player Stats Display -->
+        <Label x:Name="GamesPlayedLabel"
+               FontSize="20"
+               TextColor="White"
+               HorizontalOptions="Center"
+               IsVisible="False" />
+
+        <Label x:Name="TotalScoreLabel"
+               FontSize="20"
+               TextColor="White"
+               HorizontalOptions="Center"
+               IsVisible="False" />
+
+        <Label x:Name="HighScoreLabel"
+               FontSize="20"
+               TextColor="White"
+               HorizontalOptions="Center"
+               IsVisible="False" />
     </StackLayout>
 </ContentPage>

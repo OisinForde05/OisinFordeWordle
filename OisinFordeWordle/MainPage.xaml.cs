@@ -1,10 +1,7 @@
 ﻿using Microsoft.Maui.Controls;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Net.Http;
-using System.Threading.Tasks;
 
 namespace OisinFordeWordle
 {
@@ -29,16 +26,6 @@ namespace OisinFordeWordle
             totalScore = Preferences.Get("TotalScore", 0);   // Load totalScore from Preferences
             highScore = Preferences.Get("HighScore", 0);     // Load highScore from Preferences
             LoadWords();
-        }
-
-        private async void OnPlayerStatsButtonClicked(object sender, EventArgs e)
-        {
-            // Check if the page is already on the navigation stack
-            var playerStatsPage = new PlayerStatsPage();
-            if (!Navigation.NavigationStack.Contains(playerStatsPage))
-            {
-                await Navigation.PushAsync(playerStatsPage);
-            }
         }
 
         private async void LoadWords()
@@ -108,7 +95,7 @@ namespace OisinFordeWordle
             CheatButton.IsVisible = false; // Hide the cheat button after showing the word
         }
 
-
+        // Event handler for the submit guess button
         private async void OnGuessButtonClicked(object sender, EventArgs e)
         {
             string guess = GuessEntry.Text?.ToUpper();
@@ -227,7 +214,6 @@ namespace OisinFordeWordle
             GuessEntry.Text = string.Empty;
         }
 
-
         private void SaveGameStats(bool gameWon)
         {
             // Get the current score for the game (example: based on attempts remaining)
@@ -259,7 +245,15 @@ namespace OisinFordeWordle
             await Navigation.PushAsync(new GameInfoPage());
         }
 
-        // Cheat Button - Reveals the correct word
-       
+        private async void OnPlayerStatsButtonClicked(object sender, EventArgs e)
+        {
+            // Check if the page is already on the navigation stack
+            var playerStatsPage = new PlayerStatsPage();
+            if (!Navigation.NavigationStack.Contains(playerStatsPage))
+            {
+                await Navigation.PushAsync(playerStatsPage);
+            }
+        }
+
     }
 }
