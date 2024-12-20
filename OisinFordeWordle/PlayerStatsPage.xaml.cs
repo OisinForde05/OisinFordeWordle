@@ -1,35 +1,36 @@
 using Microsoft.Maui.Controls;
-using Microsoft.Maui.Storage;  // For Preferences
+using Microsoft.Maui.Storage;
 
 namespace OisinFordeWordle
 {
     public partial class PlayerStatsPage : ContentPage
     {
+        private string currentUser;
+
         public PlayerStatsPage()
         {
             InitializeComponent();
-            DisplayStats();
+            LoadUserStats();
         }
 
-        private void DisplayStats()
+        private void LoadUserStats()
         {
-            // Retrieve saved stats from Preferences
-            int gamesPlayed = Preferences.Get("GamesPlayed", 0);
-            int totalScore = Preferences.Get("TotalScore", 0);
-            int highScore = Preferences.Get("HighScore", 0);
+            // Get the current user
+            currentUser = Preferences.Get("Username", "Player");
 
-            // Calculate average score, avoid division by zero
-            double averageScore = gamesPlayed > 0 ? (double)totalScore / gamesPlayed : 0;
+            // Load user-specific stats
+            int gamesPlayed = Preferences.Get($"{currentUser}_GamesPlayed", 0);
+            int totalScore = Preferences.Get($"{currentUser}_TotalScore", 0);
+            int highScore = Preferences.Get($"{currentUser}_HighScore", 0);
 
-            // Update the labels with the retrieved data
-            HighScoreLabel.Text = $"?? High Score: {highScore}";
+            // Display the stats on the labels
             GamesPlayedLabel.Text = $"?? Games Played: {gamesPlayed}";
-            AverageScoreLabel.Text = $"?? Average Score: {averageScore:F2}";  // F2 limits to 2 decimal places
+            TotalScoreLabel.Text = $"?? Total Score: {totalScore}";
+            HighScoreLabel.Text = $"?? High Score: {highScore}";
         }
 
         private async void OnBackButtonClicked(object sender, EventArgs e)
         {
-            // Navigate back to the MainPage
             await Navigation.PopAsync();
         }
     }

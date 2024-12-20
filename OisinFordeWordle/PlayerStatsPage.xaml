@@ -12,9 +12,26 @@
                TextColor="White"
                HorizontalOptions="Center" />
 
-        <Label x:Name="HighScoreLabel" Text="🏅 High Score: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
-        <Label x:Name="GamesPlayedLabel" Text="🔢 Games Played: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
-        <Label x:Name="AverageScoreLabel" Text="📈 Average Score: 0" FontSize="20" TextColor="White" HorizontalOptions="Center" />
+        <!-- High Score Label -->
+        <Label x:Name="HighScoreLabel"
+               Text="🏅 High Score: 0"
+               FontSize="20"
+               TextColor="White"
+               HorizontalOptions="Center" />
+
+        <!-- Total Score Label -->
+        <Label x:Name="TotalScoreLabel"
+               Text="📊 Total Score: 0"
+               FontSize="20"
+               TextColor="White"
+               HorizontalOptions="Center" />
+
+        <!-- Games Played Label -->
+        <Label x:Name="GamesPlayedLabel"
+               Text="🔢 Games Played: 0"
+               FontSize="20"
+               TextColor="White"
+               HorizontalOptions="Center" />
 
         <!-- Back Button -->
         <Button Text="Back"

@@ -5,6 +5,7 @@
              Title="Wordle Game"
              BackgroundColor="#121213">
 
+
     <StackLayout Padding="20" VerticalOptions="Center">
         <Label Text="Wordle"
                FontSize="32"
@@ -81,6 +82,12 @@
                 Clicked="OnPlayerStatsButtonClicked"
                 WidthRequest="160" />
 
+
+            <!-- Welcome the player -->
+        <Label x:Name="WelcomeLabel"
+                   FontSize="24"
+                   TextColor="White"
+                   HorizontalOptions="Center" />
 
         <!-- Feedback Label -->
         <Label x:Name="FeedbackLabel"

@@ -26,6 +26,12 @@ namespace OisinFordeWordle
             totalScore = Preferences.Get("TotalScore", 0);   // Load totalScore from Preferences
             highScore = Preferences.Get("HighScore", 0);     // Load highScore from Preferences
             LoadWords();
+
+            // Retrieve the username from preferences and display it
+            var username = Preferences.Get("Username", "Player");
+
+            // Display welcome message
+            WelcomeLabel.Text = $"Welcome, {username}!";
         }
 
         private async void LoadWords()
@@ -216,24 +222,31 @@ namespace OisinFordeWordle
 
         private void SaveGameStats(bool gameWon)
         {
+            string username = Preferences.Get("Username", "Player");
+
             // Get the current score for the game (example: based on attempts remaining)
             int scoreForThisGame = gameWon ? (6 - currentAttempt) * 10 : 0;
 
-            // Update the total score and games played
+            // Load existing stats
+            int gamesPlayed = Preferences.Get($"{username}_GamesPlayed", 0);
+            int totalScore = Preferences.Get($"{username}_TotalScore", 0);
+            int highScore = Preferences.Get($"{username}_HighScore", 0);
+
+            // Update stats
             gamesPlayed++;
             totalScore += scoreForThisGame;
 
-            // Update high score if needed
             if (scoreForThisGame > highScore)
             {
                 highScore = scoreForThisGame;
             }
 
-            // Save to Preferences
-            Preferences.Set("HighScore", highScore);
-            Preferences.Set("GamesPlayed", gamesPlayed);
-            Preferences.Set("TotalScore", totalScore);
+            // Save updated stats
+            Preferences.Set($"{username}_GamesPlayed", gamesPlayed);
+            Preferences.Set($"{username}_TotalScore", totalScore);
+            Preferences.Set($"{username}_HighScore", highScore);
         }
+
 
         private void OnNewGameButtonClicked(object sender, EventArgs e)
         {
@@ -254,6 +267,7 @@ namespace OisinFordeWordle
                 await Navigation.PushAsync(playerStatsPage);
             }
         }
+
 
     }
 }

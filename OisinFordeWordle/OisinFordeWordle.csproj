@@ -72,6 +72,9 @@
 	  <Compile Update="GameInfoPage.xaml.cs">
 	    <DependentUpon>GameInfoPage.xaml</DependentUpon>
 	  </Compile>
+	  <Compile Update="LoginPage.xaml.cs">
+	    <DependentUpon>LoginPage.xaml</DependentUpon>
+	  </Compile>
 	  <Compile Update="PlayerStatsPage.xaml.cs">
 	    <DependentUpon>PlayerStatsPage.xaml</DependentUpon>
 	  </Compile>
@@ -85,6 +88,9 @@
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="GameInfoPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="LoginPage.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="PlayerStatsPage.xaml">
