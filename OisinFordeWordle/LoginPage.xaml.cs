@@ -1,5 +1,6 @@
 using Microsoft.Maui.Controls;
 using Microsoft.Maui.Storage;
+using System.Collections.Generic;
 
 namespace OisinFordeWordle
 {
@@ -29,8 +30,21 @@ namespace OisinFordeWordle
                 Preferences.Set($"{username}_HighScore", 0);
             }
 
+            // Add username to the list of usernames if not already added
+            var userList = GetUserList();
+            if (!userList.Contains(username))
+            {
+                userList.Add(username);
+                Preferences.Set("UserList", string.Join(",", userList));
+            }
+
             await Navigation.PushAsync(new MainPage());
         }
 
+        private List<string> GetUserList()
+        {
+            string users = Preferences.Get("UserList", "");
+            return new List<string>(users.Split(new[] { ',' }, StringSplitOptions.RemoveEmptyEntries));
+        }
     }
 }

@@ -12,26 +12,34 @@
                TextColor="White"
                HorizontalOptions="Center" />
 
-        <!-- High Score Label -->
-        <Label x:Name="HighScoreLabel"
-               Text="🏅 High Score: 0"
-               FontSize="20"
-               TextColor="White"
+        <Label x:Name="HighScoreLabel" 
+               Text="🏅 High Score: 0" 
+               FontSize="20" 
+               TextColor="White" 
                HorizontalOptions="Center" />
 
-        <!-- Total Score Label -->
-        <Label x:Name="TotalScoreLabel"
-               Text="📊 Total Score: 0"
-               FontSize="20"
-               TextColor="White"
+        <Label x:Name="GamesPlayedLabel" 
+               Text="🔢 Games Played: 0" 
+               FontSize="20" 
+               TextColor="White" 
                HorizontalOptions="Center" />
 
-        <!-- Games Played Label -->
-        <Label x:Name="GamesPlayedLabel"
-               Text="🔢 Games Played: 0"
-               FontSize="20"
-               TextColor="White"
+        <Label x:Name="AverageScoreLabel" 
+               Text="📈 Average Score: 0" 
+               FontSize="20" 
+               TextColor="White" 
                HorizontalOptions="Center" />
+
+        <!-- Leaderboard Section -->
+        <Label Text="🏆 Leaderboard" 
+               FontSize="24" 
+               TextColor="White" 
+               Margin="0,20,0,10" 
+               HorizontalOptions="Center" />
+
+        <ListView x:Name="LeaderboardListView" 
+                  BackgroundColor="#3C3D3F"
+                  HeightRequest="300" />
 
         <!-- Back Button -->
         <Button Text="Back"
