@@ -5,23 +5,29 @@
              BackgroundColor="#121213">
 
     <StackLayout Padding="20" VerticalOptions="Center">
-        <Label Text="Player Login"
-               FontSize="32"
-               TextColor="White"
+
+        <!-- Image above the username entry -->
+        <Image Source="wordlelogo.png" 
+               HeightRequest="300" 
+               WidthRequest="300"
                HorizontalOptions="Center" />
 
+        <!-- Username entry box -->
         <Entry x:Name="UsernameEntry"
                Placeholder="Enter your username"
-               FontSize="24"
-               HorizontalOptions="Center"
+               FontSize="20"
                TextColor="Black"
-               BackgroundColor="White" />
+               BackgroundColor="White"
+               HorizontalOptions="Center" />
 
+        <!-- Login button -->
         <Button Text="Login"
-                FontSize="24"
+                FontSize="20"
+                BackgroundColor="#6AAA64"
+                TextColor="White"
                 Clicked="OnLoginButtonClicked"
-                HorizontalOptions="Center" 
-                BackgroundColor="#6AAA64" 
-                TextColor="White" />
+                HorizontalOptions="Center" />
+
     </StackLayout>
+
 </ContentPage>
